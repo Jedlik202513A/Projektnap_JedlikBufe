@@ -100,7 +100,7 @@ onUnmounted(() => {
   >
     <div 
       v-if="isVisible && order" 
-      class="fixed top-0 left-0 right-0 z-50 mx-auto p-4 bg-gray-800 text-white shadow-lg max-w-md rounded-b-lg"
+      class="fixed top-0 left-0 right-0 z-50 mx-auto p-4 bg-[#FEF6E4] text-[#57390F] shadow-lg max-w-md rounded-b-lg"
     >
       <div class="flex items-center justify-between">
         <div class="flex items-center">
@@ -114,7 +114,7 @@ onUnmounted(() => {
             <div class="text-sm">{{ order.customer }} - {{ order.totalPrice }} Ft</div>
           </div>
         </div>
-        <button @click="closeAlert" class="text-white hover:text-gray-200">
+        <button @click="closeAlert" class="text-[#57390F] hover:text-gray-700">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
           </svg>
@@ -122,15 +122,15 @@ onUnmounted(() => {
       </div>
       
       <!-- Timer progress bar -->
-      <div class="w-full h-1 mt-3 bg-gray-600 rounded-full overflow-hidden">
+      <div class="w-full h-1 mt-3 bg-gray-300 rounded-full overflow-hidden">
         <div 
-          class="h-full bg-green-500 transition-all duration-100 ease-linear"
+          class="h-full bg-[#FBA518] transition-all duration-100 ease-linear"
           :style="{ width: `${progressPercentage}%` }"
         ></div>
       </div>
       
       <!-- Timer indicator text -->
-      <div class="text-xs text-gray-300 text-right mt-1">
+      <div class="text-xs text-gray-700 text-right mt-1">
         {{ Math.ceil(timeRemaining / 1000) }}s
       </div>
     </div>
