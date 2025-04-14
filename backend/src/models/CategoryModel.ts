@@ -1,8 +1,8 @@
-import { Schema, SchemaDefinition, model } from "mongoose";
+import { Schema, SchemaDefinition, model, Types } from "mongoose";
 
 const CategorySchema = new Schema<SchemaDefinition>(
     {
-        _id: Number,
+        _id: Types.ObjectId,
         name: {
             type: String,
             required: true,
@@ -11,5 +11,5 @@ const CategorySchema = new Schema<SchemaDefinition>(
     { versionKey: false, id: false, toJSON: { virtuals: true }, toObject: { virtuals: true } },
 );
 
-const CategoryModel = model("CategoryID", CategorySchema, );
+const CategoryModel = model("category_id", CategorySchema, 'categories');
 export default CategoryModel;
