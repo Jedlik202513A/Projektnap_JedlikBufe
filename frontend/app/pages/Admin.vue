@@ -89,22 +89,30 @@ const simulateNewOrder = () => {
   // Add to orders list
   orders.value.push(order);
   
-  // Show alert
+  // Show alert - ensure newOrder is set before showAlert
   newOrder.value = order;
-  showAlert.value = true;
+  
+  // Small delay to ensure the reference is updated before showing
+  setTimeout(() => {
+    showAlert.value = true;
+  }, 10);
 };
 
 // Handle alert close
 const handleAlertClose = () => {
   showAlert.value = false;
 };
+
 onMounted(() => {
-  setTimeout(simulateNewOrder, 10000);
+  // Ensure we have a small delay before showing the first alert
+  setTimeout(() => {
+    simulateNewOrder();
+  }, 2000);
   
+  // Set up interval to periodically show new orders
   setInterval(() => {
-    const randomDelay = Math.floor(Math.random() * 30000) + 15000; 
-    setTimeout(simulateNewOrder, 10000);
-  }, 60000);
+    simulateNewOrder();
+  }, 30000); // Show a new order every 30 seconds
 });
 
 // Simplified to only two statuses
@@ -113,6 +121,7 @@ const statusColumns = ['pending', 'ready'];
 
 <template>
     <div class="p-4 sm:p-6 max-w-7xl mx-auto">
+        <!-- Pass order as an object, not a ref -->
         <OrderAlert 
           :show="showAlert" 
           :order="newOrder" 

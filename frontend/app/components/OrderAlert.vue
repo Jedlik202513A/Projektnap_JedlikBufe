@@ -20,8 +20,8 @@ const emit = defineEmits(['close']);
 
 const isVisible = ref(props.show);
 const timeRemaining = ref(props.duration);
-let timer: number | null = null;
-let progressInterval: number | null = null;
+let timer = null;
+let progressInterval = null;
 
 // Calculate progress percentage
 const progressPercentage = computed(() => {
@@ -38,14 +38,14 @@ const startTimer = () => {
   timeRemaining.value = props.duration;
   
   // Set the main timer to close the alert
-  timer = window.setTimeout(() => {
+  timer = setTimeout(() => {
     isVisible.value = false;
     emit('close');
   }, props.duration);
   
   // Set an interval to update the progress bar
   const updateFrequency = 100; // Update every 100ms for smooth animation
-  progressInterval = window.setInterval(() => {
+  progressInterval = setInterval(() => {
     timeRemaining.value = Math.max(0, timeRemaining.value - updateFrequency);
     
     // If time's up, clear the interval
@@ -125,13 +125,13 @@ onUnmounted(() => {
       <div class="w-full h-1 mt-3 bg-gray-600 rounded-full overflow-hidden">
         <div 
           class="h-full bg-green-500 transition-all duration-100 ease-linear"
-          :style="{ width: `${progressPercentage.value}%` }"
+          :style="{ width: `${progressPercentage}%` }"
         ></div>
       </div>
       
       <!-- Timer indicator text -->
       <div class="text-xs text-gray-300 text-right mt-1">
-        {{ Math.ceil(timeRemaining.value / 1000) }}s
+        {{ Math.ceil(timeRemaining / 1000) }}s
       </div>
     </div>
   </transition>
