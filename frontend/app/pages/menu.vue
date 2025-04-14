@@ -56,6 +56,7 @@ const MenuItems: Item[] = [
     </div>
     <div class="grid grid-cols-1 gap-4 rounded-3xl p-4 md:grid-rows-2 lg:grid-rows-3">
         <FoodCard v-for="item in MenuItems" :key="item.id" :item="item"/>
+        <Cart/>
     </div>
 </template>
 
