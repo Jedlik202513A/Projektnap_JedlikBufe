@@ -1,8 +1,8 @@
-import { Schema, SchemaDefinition, model } from "mongoose";
+import { Schema, SchemaDefinition, model, Types } from "mongoose";
 
 const CategorySchema = new Schema<SchemaDefinition>(
     {
-        _id: Number,
+        _id: Types.ObjectId,
         name: {
             type: String,
             required: true,

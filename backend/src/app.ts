@@ -1,7 +1,10 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import IController from './interfaces/interfaces';
-import { oneSideModel, manySideModel } from './models/models';
+import CategoryModel  from './models/CategoryModel';
+import ItemModel from './models/ItemModel';
+import OrderModel from './models/OrderModel';
+import UserModel from './models/UserModel';
 import morgan from 'morgan';
 import cors from 'cors';
 
@@ -51,7 +54,9 @@ export default class App {
 		});
 
 		// init models for populate
-		oneSideModel.init();
-		manySideModel.init();
+		CategoryModel.init()
+		UserModel.init()
+		ItemModel.init()
+		OrderModel.init()
 	}
 }

@@ -1,4 +1,6 @@
 import App from './app';
-import myController from './controller/controller';
+import {Authenticator} from './controller/auth.controller';
 
-new App([new myController()]);
+import {AuthRoutes} from './routes/auth.routes';
+
+

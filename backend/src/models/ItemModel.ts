@@ -1,13 +1,14 @@
-import { Schema, SchemaDefinition, model } from "mongoose";
+import { Schema, SchemaDefinition, model, Types } from "mongoose";
 import CategorySchema from "./CategoryModel.js";
 
 
 const ItemSchema = new Schema<SchemaDefinition>(
     {
-        _id: Number,
+        _id: Types.ObjectId,
         name: {
             type: String,
             required: true,
+            trim: true,
         },
         category: {
             type: CategorySchema,
