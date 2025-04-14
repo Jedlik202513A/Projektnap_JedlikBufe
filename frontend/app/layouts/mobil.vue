@@ -17,7 +17,7 @@ onMounted(() => {
 <template>
     <div class="app-container bg-gray-950">
         <div class="mobile-frame" v-if="!isMobilDevice">
-            <div class="mobile-frame-content bg-white">
+            <div class="mobile-frame-content bg-white relative overflow-y-scroll">
                 <slot/>
             </div>
         </div>
@@ -27,8 +27,6 @@ onMounted(() => {
     </div>
 
 </template>
-
-
 
 <style scoped>
 /* @import 'asserts/css/main.css'; */
@@ -72,9 +70,28 @@ html, body {
   width: 100%;
   height: 100%;
   border-radius: 24px;
-  overflow: hidden;
   padding: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+}
 
+.mobile-frame-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.mobile-frame-content::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+.mobile-frame-content::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.5);
+  border-radius: 10px;
+  border: 2px solid transparent;
+}
+
+.mobile-frame-content::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(156, 163, 175, 0.8);
 }
 
 .mobile-only {
