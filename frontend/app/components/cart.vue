@@ -21,7 +21,7 @@ const toggleCart = () => {
 </script>
 
 <template>
-    <div class="fixed bottom-0 left-0 right-0 bg-white shadow-lg transform transition-transform duration-300"
+    <div class="absolute bottom-0 left-0 right-0 bg-white shadow-lg transform transition-transform duration-300"
          :class="{ 'translate-y-0': isCartOpen, 'translate-y-[calc(100%-4rem)]': !isCartOpen }">
         
         <!-- Top Bar -->
@@ -54,7 +54,8 @@ const toggleCart = () => {
                 </div>
             </div>
 
-            <button @click="placeOrder"
+            <button @click="placeOrder" v-if="cart.length > 0"
+            :disabled="cart.length === 0"
                     class="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition">
                 Place Order
             </button>
