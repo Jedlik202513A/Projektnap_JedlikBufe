@@ -22,9 +22,7 @@ onMounted(() => {
             </div>
         </div>
         <div class="mobile-only" v-else>
-            <div class="mobile-frame-content text-red-500 bg-gray-950 ">
-                <slot/>
-            </div>
+            <slot/>
         </div>
     </div>
 
