@@ -8,14 +8,14 @@ const acceptedUsers: typeof UserModel[] = [
         name: 'kiss.marcell',
         orders: [],
         passwordHash: 'jelszo',
-        role: 'admin'
+        role: 1
     }),
     new UserModel({
         _id: 'testUserId',
         name: 'valaki.valaki',
         orders: [],
         passwordHash: 'jelszo',
-        role: 'user'
+        role: 0
     })
 ]
 
@@ -61,10 +61,10 @@ export class Authenticator {
 
     static verifyUser(req: any, userid: string = "") {
         if (!Authenticator.verifyToken(req)) return false
-        if (req.user.role === "admin") return true
+        if (req.user.role === 1) return true
         if (userid) {
             if (req.user.id != userid) return false
         }
-        return req.user.role == 'user'
+        return req.user.role === 0
     }
 }
