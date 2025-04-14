@@ -6,7 +6,7 @@ definePageMeta({
 })
 
 const { login } = useUserApi()
-const authStore = useAuthStore() 
+const authStore = useAuthStore()
 
 const router = useRouter();
 
@@ -27,14 +27,17 @@ const handleLogin = async () => {
 </script>
 
 <template>
-    <div class="h-screen flex items-center justify-center">
+    <div class="h-screen flex items-center justify-center bg-white">
         <form @submit.prevent="handleLogin"
-            class=" max-w-5xl flex flex-col items-center gap-5 border mx-auto border-white rounded-2xl p-10 bg-neutral-200/20">
-            <input type="text" v-model="username" placeholder="Felhasználónév"
-                class="w-full h-10 border bg-amber-50 text-amber-950 rounded-2xl p-4">
+            class="max-w-4xl flex flex-col items-center gap-7 border w-100 border-white p-8">
+            <div class="w-35 h-35 bg-orange-400 rounded-3xl mb-20 flex justify-center items-center">
+                <img src="/images/fast-food-icon.png" alt="fast-food" class="size-22">
+            </div>
+            <input type="text" v-model="username" placeholder="Név"
+                class="w-full h-12 border bg-white text-amber-950 rounded-2xl p-4">
             <input type="password" v-model="password" placeholder="Jelszó"
-                class="w-full h-10 border bg-amber-50 text-amber-950 rounded-2xl p-4">
-            <button type="submit" class="bg-sky-500 text-stone-950 p-3 rounded-2xl">Bejelentkezés</button>
+                class="w-full h-12 border bg-white text-amber-950 rounded-2xl p-4">
+            <button type="submit" class="bg-orange-400 w-full text-stone-950 p-3 rounded-xl">Bejelentkezés</button>
         </form>
     </div>
 </template>
