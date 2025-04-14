@@ -31,7 +31,7 @@ jobs:
       with:
         push: true
         tags: ghcr.io/mateszadam/${{ secrets.AzureAppService_ContainerUsername_4496f7728f6945f2a6aaf9d66cc9eacc }}/bufe:${{ github.sha }}
-        file: ./Dockerfile
+        file: ./backend/Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
