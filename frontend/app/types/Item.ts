@@ -6,4 +6,5 @@ export interface Item {
     category_id: Category;
     price: number;
     stock: number;
+    quantity: number;
 }

@@ -22,6 +22,10 @@ const addQuantity = () => {
 const subtractQuantity = () => {
     cartStore.removeOneFromItem(props.item.id)
 }
+
+const isQuantityZero = computed(() => {
+    return quantity.value <= 0;
+});
 </script>
 <template>
     <div class="flex justify-between gap-5 p-5 rounded-3xl bg-orange-100">
