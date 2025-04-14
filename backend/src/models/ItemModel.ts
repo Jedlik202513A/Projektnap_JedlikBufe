@@ -9,7 +9,7 @@ const ItemSchema = new Schema<SchemaDefinition>(
             required: true,
             trim: true,
         },
-        category: {
+        category_id: {
             type: Schema.Types.ObjectId,
             ref: 'category_id',
         },
