@@ -5,47 +5,22 @@ definePageMeta({
     layout: 'mobil',
 })
 
-const { getMenu } = useMenuApi()
+const { getCategories } = useMenuApi()
 
-// const loadMenu = async () => {
-//     try {
-//         const response = await getMenu()
-//         console.log(response)
-//     } catch (error) {
-//         console.error("Error loading menu:", error)
-//     }
-// }
+const categories = ref<Category[]>([])
 
-// onMounted(() => {
-//     loadMenu()
-// })
-
-const categories = ref<Category[]>([
-    {
-        id: "1",
-        name: 'Pizza'
-    },
-    {
-        id: "2",
-        name: 'Tészta'
-    },
-    {
-        id: "3",
-        name: 'Saláta'
-    },
-    {
-        id: "4",
-        name: 'Desszert'
-    },
-    {
-        id: "5",
-        name: 'Ital'
-    },
-    {
-        id: "6",
-        name: 'Kávé'
+const loadMenu = async () => {
+    try {
+        const response = await getCategories()
+        categories.value = response || []
+    } catch (error) {
+        console.error("Error loading menu:", error)
     }
-])
+}
+
+onMounted(() => {
+    loadMenu()
+})
 </script>
 
 <template>
@@ -54,7 +29,7 @@ const categories = ref<Category[]>([
         <p class="text-gray-500 font-medium">Rendelj valami finomat!</p>
     </div>
     <div class="flex flex-col gap-2.5">
-        <CategoriesCard v-for="category in categories" :key="category.id" :category="category" />
+        <CategoriesCard v-for="category in categories" :key="category._id" :category="category" />
     </div>
 </template>
 

@@ -10,7 +10,7 @@ const props = defineProps<{
 
 <template>
     <NuxtLink :to="`/menu/${category.name}`" class="flex items-center gap-5 p-5 bg-orange-100 rounded-2xl">
-        <img src="/hamburger.png" class="size-14">
+        <img :src="`images/categories/${category._id}.png`" class="size-14">
         <p class="text-lg">{{ category.name }}</p>
     </NuxtLink>
 </template>

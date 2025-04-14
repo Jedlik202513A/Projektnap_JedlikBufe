@@ -1,3 +1,4 @@
+import type { Category } from "~/types/Category";
 import type { Item } from "~/types/Item";
 
 export const useMenuApi = () => {
@@ -10,5 +11,11 @@ export const useMenuApi = () => {
         })
     }
 
-    return { getMenu }
+    const getCategories = () => {
+        return $fetch<Category[]>(`${API_BASE_URL}/categories`, {
+            method: "GET",
+        })
+    }
+
+    return { getMenu, getCategories }
 };
