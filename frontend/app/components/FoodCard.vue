@@ -2,10 +2,10 @@
 
 import type { Item } from '~/types/Item.ts';
 
-const AddToCart = (item: Item)=>{
-    console.log(item);
-    console.log(item.stock);
+const cartStore = useCartStore()
 
+const AddToCart = (item: Item)=>{
+    cartStore.addItem(item)
 }
 
 const props = defineProps<{
@@ -20,7 +20,7 @@ const props = defineProps<{
         <p class="m-6">Ár: {{ item.price }} -Ft</p>
         
         <div class="flex">
-            <!-- <button>&#65291</button> -->
+            <button class="">&#65291</button>
         </div>
         <button class="bg-red-700 w-50 h-10 border rounded-4xl" v-on:click="AddToCart(item)">Hozzáadás</button>
     </div>
