@@ -18,7 +18,7 @@ const UserSchema = new Schema<SchemaDefinition>(
         },
         orders: {
             type: Schema.Types.ObjectId,
-            ref: 'OrderID',
+            ref: 'Order',
         },
         role: {
             type: Number,

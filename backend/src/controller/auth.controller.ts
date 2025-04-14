@@ -28,7 +28,7 @@ export class Authenticator {
 
     static async login(req: any, res: any) {
         const { name, password } = req.body
-        if (!name || !password) return res.status(400).json({ error: "Bad request body, missing either username or password" })
+        if (!name || !password) return res.status(400).json({ error: "Bad request body, missing either name or password" })
         // const user = await UserModel.findOne({ username: username })
         const user = acceptedUsers.find(u => u.name == name);        
         if (!user) return res.status(403).json({ message: "Invalid name or password" })
