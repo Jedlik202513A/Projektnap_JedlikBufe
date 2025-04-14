@@ -3,14 +3,28 @@ import type { Item } from '~/types/Item';
 import type { Order } from '~/types/Order';
 import type { CartItem } from '~/types/Cart';
 
-
 //   const { useCartStore } = await import('@/stores/cart'); !!
 const cartStore = useCartStore();
+const orderService = useOrderService();
 
 const cart = computed(() => cartStore.getItems);
 
 const placeOrder = () => {
-    console.log('Order placed:');
+    const items: Item[] = [];
+    
+    cart.value.forEach((cartItem: CartItem) => {
+        items.push({
+            ...cartItem.item,
+            quantity: cartItem.quantity
+        });
+    });
+    orderService.postOrder(items)
+        .then((response) => {
+            cartStore.clearCart();
+            isCartOpen.value = false;
+        })
+        .catch((error) => {
+        });
 
     // Add order submission logic here
 };
@@ -67,7 +81,7 @@ const toggleCart = () => {
 
 
             <div class="flex justify-between items-center">
-                <button @click="placeOrder" v-if="cart.length > 0" :disabled="cart.length === 0"
+                <button @click="placeOrder()" v-if="cart.length > 0" :disabled="cart.length === 0"
                     class="w-1/2 bg-orange-100 text-black py-3 rounded-lg hover:bg-orange-200 transition">
                     Megrendelés
                 </button>
