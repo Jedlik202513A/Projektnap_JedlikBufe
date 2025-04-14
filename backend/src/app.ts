@@ -4,6 +4,7 @@ import IController from './interfaces/interfaces';
 import { oneSideModel, manySideModel } from './models/models';
 import morgan from 'morgan';
 import cors from 'cors';
+import { AuthRoutes } from 'routes/auth.routes';
 
 export default class App {
 	public app: express.Application;

@@ -3,7 +3,20 @@ import bcrypt from "bcrypt"
 const UserModel = require("../models/user.model")
 
 const acceptedUsers: typeof UserModel[] = [
-    
+    new UserModel({
+        _id: 'testAdminId',
+        name: 'kiss.marcell',
+        orders: [],
+        passwordHash: 'jelszo',
+        role: 'admin'
+    }),
+    new UserModel({
+        _id: 'testUserId',
+        name: 'valaki.valaki',
+        orders: [],
+        passwordHash: 'jelszo',
+        role: 'user'
+    })
 ]
 
 export class Authenticator {
