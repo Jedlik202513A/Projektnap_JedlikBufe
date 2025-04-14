@@ -10,4 +10,4 @@ RUN tsc
 EXPOSE 5000
 
 
-CMD ["node", "./dist/App.js"]
+CMD ["npm", "run", "dev"]

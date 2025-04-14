@@ -220,7 +220,7 @@
 	},
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"dev": "nodemon --watch src/index.js"
+		"dev": "nodemon --watch src/app.js"
 	},
 	"author": "",
 	"license": "ISC",
