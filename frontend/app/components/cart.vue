@@ -6,6 +6,7 @@ import type { CartItem } from '~/types/Cart';
 //   const { useCartStore } = await import('@/stores/cart'); !!
 const cartStore = useCartStore();
 const orderService = useOrderService();
+const router = useRouter();
 
 const cart = computed(() => cartStore.getItems);
 
@@ -18,10 +19,12 @@ const placeOrder = () => {
             quantity: cartItem.quantity
         });
     });
+
     orderService.postOrder(items)
         .then((response) => {
             cartStore.clearCart();
             isCartOpen.value = false;
+            router.push(`/StatusTrack/${response.id}`);
         })
         .catch((error) => {
         });
