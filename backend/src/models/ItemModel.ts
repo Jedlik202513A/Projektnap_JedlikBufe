@@ -11,7 +11,9 @@ const ItemSchema = new Schema<SchemaDefinition>(
         },
         category: {
             type: Schema.Types.ObjectId,
-            ref: 'Category',
+            ref: 'categoryId',
+            required: true,            
+            index: true
         },
         price: {
             type: Number,

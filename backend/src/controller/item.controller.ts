@@ -1,7 +1,9 @@
+import CategoryModel from "../models/CategoryModel";
 import ItemModel from "../models/ItemModel";
 import { Request, Response } from "express";
 
 export class ItemController {
+    private static categories = CategoryModel;
     private static items = ItemModel;
 
     static getItems = async (req: Request, res: Response) => {
