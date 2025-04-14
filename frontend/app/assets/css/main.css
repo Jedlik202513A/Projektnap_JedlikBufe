@@ -31,3 +31,7 @@
     --color-sage-800: #57500F;
     --color-sage-900: #433E0A;
 }
+
+* {
+    font-family: Quicksand, sans-serif;
+}
