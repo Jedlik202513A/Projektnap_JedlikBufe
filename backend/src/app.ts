@@ -35,7 +35,9 @@ export default class App {
 	private connectToTheDatabase() {
 		mongoose.set('strictQuery', true);
 		mongoose
-			.connect('mongodb://127.0.0.1:27017/AdatbázisNeve')
+			.connect(
+				'mongodb+srv://jedlikuser:jedlikuser@jedlikproject.aa7atkk.mongodb.net/'
+			)
 			.catch(() =>
 				console.log('Unable to connect to the server. Please start MongoDB.')
 			);
