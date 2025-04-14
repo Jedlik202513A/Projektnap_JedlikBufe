@@ -1,12 +1,12 @@
-<template>
-  <div>
-    <slot/>
-  </div>
-</template>
-
 <script lang="ts" setup>
 
 </script>
+
+<template>
+  <div>
+    
+  </div>
+</template>
 
 <style>
 
