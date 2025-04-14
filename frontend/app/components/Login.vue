@@ -14,7 +14,11 @@ const handleLogin = async () => {
     try {
         const response = await login(username.value, password.value)
         authStore.setToken(response.token)
-        router.push('/')
+        if (response.role == 0) {
+            router.push('/menu')
+        } else {
+            router.push('/admin')
+        }
     } catch (error) {
         console.error(error)
     }
