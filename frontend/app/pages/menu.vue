@@ -38,6 +38,7 @@ const MenuItems: Item[] = [
 <template>
     <div class="flex">
         <FoodCard v-for="item in MenuItems" :key="item.id" :item="item"/>
+        <Cart/>
     </div>
 </template>
 
