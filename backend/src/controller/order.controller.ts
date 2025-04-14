@@ -53,21 +53,20 @@ export class OrderController {
 		}
 	};
 
-	// public static updateOrder = async (req: Request, res: Response) => {
-	// 	try {
-	// 		const id = req.params.id;
-    //         const body = req.body;
-    //         const updatedDoc = await this.order.findByIdAndUpdate(id, body, { new: true, runValidators: true }).populate("Item", "-_id");
-    //         if (updatedDoc) {
-    //             res.send(updatedDoc);
-    //         } else {
-    //             res.status(404).send({ message: `Document with id ${id} not found!` });
-    //         }
-	// 	} catch(error){
-	// 		res.status(400).send({ message: error.message });
+	public static updateOrder = async (req: Request, res: Response) => {
+		try {
+			const id = req.params.id;
+            const updatedDoc = await this.order.findByIdAndUpdate(id, { status: 'Confirmed' }, { new: true }).populate("items")
+            if (updatedDoc) {
+                res.send(updatedDoc);
+            } else {
+                res.status(404).send({ message: `Document with id ${id} not found!` });
+            }
+		} catch(error){
+			res.status(400).send({ message: error.message });
 
-	// 	}
-	// }
+		}
+	}
 
 	public static getOrderById = async (req: Request, res: Response) => {
 		try {
