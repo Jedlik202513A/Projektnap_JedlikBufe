@@ -11,7 +11,9 @@ const ItemSchema = new Schema<SchemaDefinition>(
         },
         category_id: {
             type: Schema.Types.ObjectId,
-            ref: 'category_id',
+            ref: 'categoryId',
+            required: true,            
+            index: true
         },
         price: {
             type: Number,
@@ -20,9 +22,13 @@ const ItemSchema = new Schema<SchemaDefinition>(
         stock: {
             type: Number,
         },
+        quantity: {
+            type: Number,
+            required: true
+        }
     },
     { versionKey: false, id: false, toJSON: { virtuals: true }, toObject: { virtuals: true } },
 )
 
-const ItemModel = model("ItemID", ItemSchema, 'items');
+const ItemModel = model("Item", ItemSchema, 'items');
 export default ItemModel;

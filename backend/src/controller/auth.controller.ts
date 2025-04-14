@@ -28,7 +28,7 @@ export class Authenticator {
 
     static async login(req: any, res: any) {
         const { name, password } = req.body
-        if (!name || !password) return res.status(400).json({ error: "Bad request body, missing either username or password" })
+        if (!name || !password) return res.status(400).json({ error: "Bad request body, missing either name or password" })
         // const user = await UserModel.findOne({ username: username })
         const user = acceptedUsers.find(u => u.name == name);        
         if (!user) return res.status(403).json({ message: "Invalid name or password" })
@@ -36,7 +36,7 @@ export class Authenticator {
         if (Authenticator.checkPassword(password, user.passwordHash)) {
             const token = jwt.sign({ name: name, role: user.role, id: user._id }, 'very_secret_key')            
             // await user.save()
-            return res.status(200).json({ token: token })
+            return res.status(200).json({ token: token, username: name, role: user.role })
         }
         else {
             return res.status(403).json({ message: "Invalid asname or password" })

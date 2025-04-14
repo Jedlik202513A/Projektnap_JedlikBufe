@@ -3,14 +3,18 @@ import ItemSchema from "./ItemModel";
 
 const OrderSideSchema = new Schema<SchemaDefinition>(
   {
-    orderID: { type: Types.ObjectId, required: true, unique: true },
+    _id: Types.ObjectId,
     sumPrice: { type: Number, required: true },
     status: { type: String, required: true },
-    items: { 
-      type: Schema.Types.ObjectId,
-            ref: 'ItemID'    
-    ,required: true },
-    orderNumber: { type: Number, required: true },
+    items: [
+      { 
+        type: Schema.Types.ObjectId,
+        ref: 'Item',
+        required: true,
+        index: true
+      }
+    ],
+    orderNumber: { type: String, required: true },
   },
   {
     versionKey: false,
@@ -20,5 +24,5 @@ const OrderSideSchema = new Schema<SchemaDefinition>(
   }
 );
 
-const OrderModel = model("OrderID", OrderSideSchema);
+const OrderModel = model("OrderID", OrderSideSchema, 'orders');
 export default OrderModel;
