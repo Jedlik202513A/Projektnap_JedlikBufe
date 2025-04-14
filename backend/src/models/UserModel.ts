@@ -1,5 +1,5 @@
 import { Schema, SchemaDefinition, model,Types } from "mongoose";
-import OrderSideSchema from "./OrderModel.js";
+import OrderSideSchema from "./OrderModel";
 // https://mongoosejs.com/docs/typescript.html
 // https://mongoosejs.com/docs/validation.html
 // https://transform.tools/json-to-mongoose
@@ -16,7 +16,10 @@ const UserSchema = new Schema<SchemaDefinition>(
             type: String,
             required: true,
         },
-        orders:[OrderSideSchema],
+        orders: {
+            type: Schema.Types.ObjectId,
+            ref: 'Order',
+        },
         role: {
             type: Number,
             required: true,
@@ -26,6 +29,6 @@ const UserSchema = new Schema<SchemaDefinition>(
 );
 
 // ************************************************
-const UserModel = model("UserID", UserSchema, );
+const UserModel = model("UserID", UserSchema);
 export default UserModel;
 

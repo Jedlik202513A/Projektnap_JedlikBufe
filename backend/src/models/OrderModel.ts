@@ -1,12 +1,15 @@
 import { Schema, SchemaDefinition, model, Types } from "mongoose";
-import ItemSchema from "./ItemModel.js";
+import ItemSchema from "./ItemModel";
 
-const OrderSideSchema = new Schema(
+const OrderSideSchema = new Schema<SchemaDefinition>(
   {
     orderID: { type: Types.ObjectId, required: true, unique: true },
     sumPrice: { type: Number, required: true },
     status: { type: String, required: true },
-    items: { type: [ItemSchema], required: true },
+    items: { 
+      type: Schema.Types.ObjectId,
+            ref: 'Item'    
+    ,required: true },
     orderNumber: { type: Number, required: true },
   },
   {
