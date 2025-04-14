@@ -39,7 +39,6 @@ export const useCartStore = defineStore('cart', {
             if (item) {
                 item.quantity += 1
             }
-            console.log(item?.quantity);
         },
     },
     getters: {

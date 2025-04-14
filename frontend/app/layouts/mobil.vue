@@ -28,8 +28,6 @@ onMounted(() => {
 
 </template>
 
-
-
 <style scoped>
 /* @import 'asserts/css/main.css'; */
 
