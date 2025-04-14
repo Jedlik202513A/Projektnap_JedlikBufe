@@ -1,10 +1,10 @@
 FROM node:alpine
 WORKDIR /usr/app
-COPY package.json .
+COPY ./backend/package.json .
 RUN npm install\ 
     && npm install typescript -g
 
-COPY . .
+COPY ./backend .
 RUN tsc
 
 EXPOSE 5000
