@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { Item } from '~/types/Item';
-
+definePageMeta({
+    layout: 'mobil',
+})
 const MenuItems: Item[] = [
     {
         id: "0",
@@ -44,4 +46,5 @@ const MenuItems: Item[] = [
 
 
 <style scoped>
+
 </style>
