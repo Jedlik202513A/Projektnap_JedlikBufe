@@ -6,6 +6,7 @@ definePageMeta({
 })
 
 const { getCategories } = useMenuApi()
+const authStore = useAuthStore()
 
 const categories = ref<Category[]>([])
 
@@ -25,7 +26,7 @@ onMounted(() => {
 
 <template>
     <div class="p-5">
-        <h1 class="text-3xl font-semibold">Szia Lajos!</h1>
+        <h1 class="text-3xl font-semibold">Szia {{ authStore.user?.name}}!</h1>
         <p class="text-gray-500 font-medium">Rendelj valami finomat!</p>
     </div>
     <div class="flex flex-col gap-2.5">
