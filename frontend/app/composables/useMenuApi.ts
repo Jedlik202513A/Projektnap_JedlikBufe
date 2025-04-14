@@ -10,5 +10,11 @@ export const useMenuApi = () => {
         })
     }
 
-    return { getMenu }
+    const getMenuByCategory = (categoryId: string) => {
+        return $fetch<Item[]>(`${API_BASE_URL}/items/${categoryId}`, {
+            method: "GET",
+        })
+    }
+
+    return { getMenu, getMenuByCategory }
 };
