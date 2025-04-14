@@ -1,0 +1,23 @@
+name: Docker Image CI
+
+on:
+  workflow_dispatch:
+
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build the Docker image
+      run: |
+        docker build ./backend --file ./backend/Dockerfile --tag ghcr.io/mateszadam/bufe:latest      
+        docker login ghcr.io -u mateszadam -p ${{secrets.ghcrToken}}
+        docker push ghcr.io/mateszadam/bufe:latest
