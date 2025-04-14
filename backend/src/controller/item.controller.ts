@@ -6,7 +6,7 @@ export class ItemController {
 
     static getItems = async (req: Request, res: Response) => {
         try {
-            const data = await this.items.find()
+            const data = await this.items.find().populate('category')
             res.send(data);
         } catch (error) {
             res.status(400).send({ message: error.message });

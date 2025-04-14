@@ -8,7 +8,7 @@ const OrderSideSchema = new Schema<SchemaDefinition>(
     status: { type: String, required: true },
     items: { 
       type: Schema.Types.ObjectId,
-            ref: 'ItemID'    
+            ref: 'Item'    
     ,required: true },
     orderNumber: { type: Number, required: true },
   },
