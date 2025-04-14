@@ -1,10 +1,12 @@
 <script setup lang="ts">
-
 </script>
 
 <template>
-    <div>
-    </div>
+
+    <NuxtLink to="/menu">
+        menu
+    </NuxtLink>
+
 </template>
 
 <style scoped>

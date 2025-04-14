@@ -1,0 +1,31 @@
+import { Schema, SchemaDefinition, model } from "mongoose";
+import OrderSideSchema from "./OrderModel.js";
+// https://mongoosejs.com/docs/typescript.html
+// https://mongoosejs.com/docs/validation.html
+// https://transform.tools/json-to-mongoose
+
+// ************************************************
+const UserSchema = new Schema<SchemaDefinition>(
+    {
+        _id: Number,
+        name: {
+            type: String,
+            required: true,
+        },
+        password: {
+            type: String,
+            required: true,
+        },
+        orders:[OrderSideSchema],
+        role: {
+            type: Number,
+            required: true,
+        }
+    },
+    { versionKey: false, id: false, toJSON: { virtuals: true }, toObject: { virtuals: true } },
+);
+
+// ************************************************
+const UserModel = model("UserID", UserSchema, );
+export default UserModel;
+
