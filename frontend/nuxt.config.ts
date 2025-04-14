@@ -17,5 +17,10 @@ export default defineNuxtConfig({
       tailwindcss(),
     ],
   },
-  modules: ['@pinia/nuxt', '@nuxt/icon']
+  modules: ['@pinia/nuxt', '@nuxtjs/google-fonts', '@nuxt/icon'],
+  googleFonts: {
+    families: {
+      Quicksand: [400, 500, 600, 700],
+    }
+  }
 })

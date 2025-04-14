@@ -34,14 +34,20 @@ export const useCartStore = defineStore('cart', {
                 this.removeItem(itemId)
             }
         },
-        addOneToItem: function (itemId: string) {
-            const item = this.items.find(i => i.item.id === itemId)
-            if (item) {
-                item.quantity += 1
+        addOneToItem: function (item: Item) {
+            const existingItem = this.items.find(i => i.item.id === item.id)
+            if (existingItem) {
+                existingItem.quantity += 1
+            } else {
+                this.items.push({ item, quantity: 1 })
             }
         },
     },
     getters: {
-        getItems: (state) => state.items
+        getItems: (state) => state.items,
+        getItemById: (state) => (itemId: string) => {
+            const item = state.items.find(i => i.item.id === itemId)
+            return item ? item.item : null
+        }
     }
 })
