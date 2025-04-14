@@ -50,8 +50,8 @@ const MenuItems: Item[] = [
 </script>
 
 <template>
-    <div>
-        <h1>Szia Lajos!</h1>
+    <div class="p-5">
+        <h1 class="text-2xl font-bold">Szia Lajos!</h1>
         <p>Rendelj valami finomat!</p>
     </div>
     <div class="grid grid-cols-1 gap-4 rounded-3xl p-4 md:grid-rows-2 lg:grid-rows-3">
