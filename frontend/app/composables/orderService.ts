@@ -6,7 +6,7 @@ export const useOrderService = () => {
     const API_BASE_URL = runtimeConfig.public.apiBaseUrl
 
     const postOrder = (items: Item[]) => {
-        return $fetch<OrderResponse>(`http://10.0.22.31:5000/api/orders`, {
+        return $fetch<OrderResponse>(`${API_BASE_URL}/orders`, {
             method: "POST",
             body: [...items]
         })
