@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import OrderList from '../components/OrderList.vue';
+import OrderAlert from '../components/OrderAlert.vue';
 
 // Mock data for orders - updated to use only Pending and Ready statuses
 const orders = ref([
@@ -38,6 +39,10 @@ const orders = ref([
   }
 ]);
 
+// Order alert state
+const showAlert = ref(false);
+const newOrder = ref(null);
+
 // Function to update order status
 const updateOrderStatus = (orderId: number, newStatus: string) => {
   const order = orders.value.find(o => o.id === orderId);
@@ -46,14 +51,74 @@ const updateOrderStatus = (orderId: number, newStatus: string) => {
   }
 };
 
+// New function to handle order pickup
+const handleOrderPickup = (orderId: number) => {
+  const orderIndex = orders.value.findIndex(o => o.id === orderId);
+  if (orderIndex !== -1) {
+    orders.value.splice(orderIndex, 1);
+  }
+};
+
+// Function to simulate receiving a new order
+const simulateNewOrder = () => {
+  // Generate a new order with a random ID
+  const orderId = Math.floor(Math.random() * 1000) + 5; // Start from 5 to avoid conflicts with existing orders
+  const customers = ['Michael Scott', 'Dwight Schrute', 'Jim Halpert', 'Pam Beesly', 'Ryan Howard'];
+  const menuItems = [
+    ['Cheeseburger', 'Fries', 'Milkshake'],
+    ['Veggie Burger', 'Sweet Potato Fries'],
+    ['Chicken Wings', 'Coleslaw', 'Beer'],
+    ['Fish & Chips', 'Soda'],
+    ['Pizza', 'Garlic Bread', 'Soda']
+  ];
+  
+  // Pick random customer and order items
+  const customerIndex = Math.floor(Math.random() * customers.length);
+  const itemsIndex = Math.floor(Math.random() * menuItems.length);
+  
+  // Create new order object
+  const order = {
+    id: orderId,
+    customer: customers[customerIndex],
+    items: menuItems[itemsIndex],
+    totalPrice: Math.floor(Math.random() * 2000) + 1000, // Random price between 1000-3000
+    status: 'pending',
+    timestamp: new Date().toISOString()
+  };
+  
+  // Add to orders list
+  orders.value.push(order);
+  
+  // Show alert
+  newOrder.value = order;
+  showAlert.value = true;
+};
+
+// Handle alert close
+const handleAlertClose = () => {
+  showAlert.value = false;
+};
+onMounted(() => {
+  setTimeout(simulateNewOrder, 10000);
+  
+  setInterval(() => {
+    const randomDelay = Math.floor(Math.random() * 30000) + 15000; 
+    setTimeout(simulateNewOrder, 10000);
+  }, 60000);
+});
+
 // Simplified to only two statuses
 const statusColumns = ['pending', 'ready'];
 </script>
 
 <template>
     <div class="p-4 sm:p-6 max-w-7xl mx-auto">
-        <h1 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Restaurant Admin - Order Management</h1>
-        <div class="text-sm mb-4 text-gray-600">Drag orders between columns or use buttons to change status</div>
+        <OrderAlert 
+          :show="showAlert" 
+          :order="newOrder" 
+          :duration="5000"
+          @close="handleAlertClose"
+        />
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div 
@@ -67,7 +132,8 @@ const statusColumns = ['pending', 'ready'];
                     :orders="orders.filter(order => order.status === status)" 
                     :targetStatus="status"
                     :allStatuses="statusColumns"
-                    @update-status="updateOrderStatus" 
+                    @update-status="updateOrderStatus"
+                    @order-pickup="handleOrderPickup"
                 />
             </div>
         </div>
@@ -75,7 +141,6 @@ const statusColumns = ['pending', 'ready'];
 </template>
 
 <style scoped>
-/* No custom styles needed as we're using Tailwind */
 .status-column {
   transition: background-color 0.2s ease;
 }
@@ -89,7 +154,6 @@ const statusColumns = ['pending', 'ready'];
 }
 
 @media (max-width: 768px) {
-  /* Ensure columns are visually distinct on mobile */
   .status-column {
     margin-bottom: 1rem;
   }

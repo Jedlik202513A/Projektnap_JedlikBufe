@@ -17,10 +17,14 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(['update-status']);
+const emit = defineEmits(['update-status', 'order-pickup']);
 
 const handleStatusChange = (orderId: number, newStatus: string) => {
   emit('update-status', orderId, newStatus);
+};
+
+const handleOrderPickup = (orderId: number) => {
+  emit('order-pickup', orderId);
 };
 
 // Drag and drop functionality
@@ -162,6 +166,7 @@ const handleTouchEnd = (event: TouchEvent, orderId: number) => {
         @touch-start="handleTouchStart"
         @touch-move="handleTouchMove"
         @touch-end="handleTouchEnd"
+        @order-pickup="handleOrderPickup"
       />
     </div>
   </div>

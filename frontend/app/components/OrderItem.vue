@@ -16,7 +16,7 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(['change-status', 'drag-start', 'touch-start', 'touch-move', 'touch-end']);
+const emit = defineEmits(['change-status', 'drag-start', 'touch-start', 'touch-move', 'touch-end', 'order-pickup']);
 
 const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleString();
@@ -84,6 +84,16 @@ const getStatusColor = (status: string) => {
 const getOtherStatus = () => {
   return props.order.status === 'pending' ? 'ready' : 'pending';
 };
+
+// Handle order pickup
+const handlePickup = () => {
+  emit('order-pickup', props.order.id);
+};
+
+// Check if this order is in the Ready column
+const isInReadyColumn = () => {
+  return props.order.status === 'ready';
+};
 </script>
 
 <template>
@@ -114,14 +124,28 @@ const getOtherStatus = () => {
     </div>
     
     <div class="flex flex-wrap gap-2 mt-3 pt-3 border-t border-gray-100">
+      <!-- Show status change button when not in ready column -->
       <button 
+        v-if="!isInReadyColumn()"
         :class="[
-          'px-3 py-2 text-sm rounded-full transition-colors', // Increased touch target size
+          'px-3 py-2 text-sm rounded-full transition-colors',
           'bg-gray-100 hover:bg-gray-200 text-gray-700'
         ]"
         @click="updateStatus(getOtherStatus())"
       >
         Move to {{ getOtherStatus() }}
+      </button>
+      
+      <!-- Show pickup button only when in ready column -->
+      <button 
+        v-if="isInReadyColumn()"
+        :class="[
+          'px-3 py-2 text-sm rounded-full transition-colors',
+          'bg-green-500 hover:bg-green-600 text-white'
+        ]"
+        @click="handlePickup"
+      >
+        Picked Up
       </button>
     </div>
   </div>
