@@ -38,7 +38,11 @@ const MenuItems: Item[] = [
 </script>
 
 <template>
-    <div class="flex">
+    <div>
+        <h1>Szia Lajos!</h1>
+        <p>Rendelj valami finomat!</p>
+    </div>
+    <div class="grid grid-cols-1 gap-4">
         <FoodCard v-for="item in MenuItems" :key="item.id" :item="item"/>
     </div>
 </template>
