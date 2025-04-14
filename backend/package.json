@@ -220,7 +220,8 @@
 	},
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"dev": "nodemon --watch src/app.js"
+		"dev": "nodemon",
+		"start": "node --env-file .env dist/server.js"
 	},
 	"author": "",
 	"license": "ISC",

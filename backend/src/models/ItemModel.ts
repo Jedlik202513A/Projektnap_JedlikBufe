@@ -1,16 +1,17 @@
-import { Schema, SchemaDefinition, model } from "mongoose";
-import CategorySchema from "./CategoryModel.js";
-
+import { Schema, SchemaDefinition, model, Types } from "mongoose";
+import CategorySchema from "./CategoryModel";
 
 const ItemSchema = new Schema<SchemaDefinition>(
     {
-        _id: Number,
+        _id: Types.ObjectId,
         name: {
             type: String,
             required: true,
+            trim: true,
         },
         category: {
-            type: CategorySchema,
+            type: Schema.Types.ObjectId,
+            ref: 'category_id',
         },
         price: {
             type: Number,
@@ -23,5 +24,5 @@ const ItemSchema = new Schema<SchemaDefinition>(
     { versionKey: false, id: false, toJSON: { virtuals: true }, toObject: { virtuals: true } },
 )
 
-const ItemModel = model("ItemID", ItemSchema, );
+const ItemModel = model("ItemID", ItemSchema, 'items');
 export default ItemModel;

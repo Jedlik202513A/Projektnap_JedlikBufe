@@ -1,30 +1,45 @@
 import jwt, { Secret } from "jsonwebtoken"
 import bcrypt from "bcrypt"
-const UserModel = require("../models/user.model")
+import UserModel from "models/UserModel";
+import { log } from "console";
 
-const acceptedUsers: typeof UserModel[] = [
-    
+const acceptedUsers: any[] = [
+    {
+        _id: 'testAdminId',
+        name: 'kiss.marcell',
+        orders: [],
+        passwordHash: 'jelszo',
+        role: 1
+    },
+    {
+        _id: 'testUserId',
+        name: 'valaki.valaki',
+        orders: [],
+        passwordHash: 'jelszo',
+        role: 0
+    }
 ]
 
 export class Authenticator {
-    static async checkPassword(password: string, hash: string) {
+    static checkPassword(password: string, hash: string) {
         return password === hash;
         // return await bcrypt.compare(password, hash)
     }
 
     static async login(req: any, res: any) {
-        const { username, password } = req.body
-        if (!username || !password) return res.status(400).json({ error: "Bad request body, missing either username or password" })
+        const { name, password } = req.body
+        if (!name || !password) return res.status(400).json({ error: "Bad request body, missing either username or password" })
         // const user = await UserModel.findOne({ username: username })
-        const user = acceptedUsers.find(u => u.username == username);
-        if (!user) return res.status(403).json({ message: "Invalid username or password" })
-        if (await Authenticator.checkPassword(password, user.password_hashed)) {
-            const token = jwt.sign({ username: username, role: user.role, id: user._id }, process.env.JWT_SECRET as Secret)            
-            await user.save()
+        const user = acceptedUsers.find(u => u.name == name);        
+        if (!user) return res.status(403).json({ message: "Invalid name or password" })
+            log(user)
+        if (Authenticator.checkPassword(password, user.passwordHash)) {
+            const token = jwt.sign({ name: name, role: user.role, id: user._id }, 'very_secret_key')            
+            // await user.save()
             return res.status(200).json({ token: token })
         }
         else {
-            return res.status(403).json({ message: "Invalid username or password" })
+            return res.status(403).json({ message: "Invalid asname or password" })
         }
     }
 
@@ -48,10 +63,10 @@ export class Authenticator {
 
     static verifyUser(req: any, userid: string = "") {
         if (!Authenticator.verifyToken(req)) return false
-        if (req.user.role === "admin") return true
+        if (req.user.role === 1) return true
         if (userid) {
             if (req.user.id != userid) return false
         }
-        return req.user.role == 'user'
+        return req.user.role === 0
     }
 }
