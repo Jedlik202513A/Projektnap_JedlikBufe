@@ -2,7 +2,7 @@
 import { useAuthStore } from '~/stores/auth'
 
 definePageMeta({
-    layout: 'blank'
+    layout: 'mobil'
 })
 
 const { login } = useUserApi()
@@ -27,7 +27,7 @@ const handleLogin = async () => {
 </script>
 
 <template>
-    <div class="h-screen flex items-center justify-center bg-white">
+    <div class="h-full flex items-center justify-center bg-white rounded-2xl">
         <form @submit.prevent="handleLogin"
             class="max-w-4xl flex flex-col items-center gap-7 border w-100 border-white p-8">
             <div class="w-35 h-35 bg-orange-400 rounded-3xl mb-20 flex justify-center items-center">
