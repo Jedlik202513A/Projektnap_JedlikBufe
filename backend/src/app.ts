@@ -31,7 +31,7 @@ export default class App {
 	}
 
 	public listen(): void {
-		this.app.listen(80, () => {
+		this.app.listen(5000, () => {
 			console.log('App listening on the port 80');
 		});
 	}

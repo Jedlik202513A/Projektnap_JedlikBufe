@@ -7,7 +7,7 @@ RUN npm install\
 COPY ./backend .
 RUN tsc
 
-EXPOSE 80
+EXPOSE 5000
 
 
 CMD ["npm", "run", "dev"]
