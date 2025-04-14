@@ -27,8 +27,8 @@ onMounted(() => {
 
 <template>
     <div class="flex flex-col gap-5 p-2.5">
-        <NuxtLink to="/menu" class="flex items-center text-blue-500 hover:underline">
-            Go Back
+        <NuxtLink to="/menu" class="flex items-center hover:underline">
+            <Icon name="lucide:arrow-left" size="1.5rem"/>
         </NuxtLink>
         <div>
             <h1 class="text-xl font-bold">{{ menuItems[0]?.category_id.name }}</h1> 
