@@ -7,6 +7,6 @@ import { OrderRoutes } from './routes/order.routes';
 new App([
     new AuthRoutes(),
     new ItemRoutes(),
-    new CategoryRoutes()
+    new CategoryRoutes(),
     new OrderRoutes()
 ]);
