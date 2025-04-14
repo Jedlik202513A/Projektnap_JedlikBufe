@@ -6,12 +6,14 @@ const props = defineProps<{
     item: Item
 }>()
 
+console.log(props.item)
+
 const cartStore = useCartStore()
 
 const cart = computed(() => cartStore.getItems)
 
 const quantity = computed(() => {
-    const item = cart.value.find((i) => i.item.id === props.item.id)
+    const item = cart.value.find((i) => i.item._id === props.item._id)
     return item ? item.quantity : 0
 })
 
@@ -20,7 +22,7 @@ const addQuantity = () => {
 }
 
 const subtractQuantity = () => {
-    cartStore.removeOneFromItem(props.item.id)
+    cartStore.removeOneFromItem(props.item._id)
 }
 </script>
 <template>

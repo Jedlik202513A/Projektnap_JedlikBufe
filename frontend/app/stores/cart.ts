@@ -7,7 +7,7 @@ export const useCartStore = defineStore('cart', {
     }),
     actions: {
         addItem: function (item: Item, quantity: number = 1) {
-            const existingItem = this.items.find(i => i.item.id === item.id)
+            const existingItem = this.items.find(i => i.item._id === item._id)
             if (existingItem) {
                 existingItem.quantity += quantity
             } else {
@@ -15,7 +15,7 @@ export const useCartStore = defineStore('cart', {
             }
         },
         removeItem: function (itemId: string) {
-            const index = this.items.findIndex(i => i.item.id === itemId)
+            const index = this.items.findIndex(i => i.item._id === itemId)
             if (index !== -1) {
                 this.items.splice(index, 1)
             }
@@ -27,7 +27,7 @@ export const useCartStore = defineStore('cart', {
             return this.items.reduce((total, item) => total + (item.item.price * item.quantity), 0)
         },
         removeOneFromItem: function (itemId: string) {
-            const item = this.items.find(i => i.item.id === itemId)
+            const item = this.items.find(i => i.item._id === itemId)
             if (item && item.quantity > 1) {
                 item.quantity -= 1
             } else {
@@ -35,7 +35,7 @@ export const useCartStore = defineStore('cart', {
             }
         },
         addOneToItem: function (item: Item) {
-            const existingItem = this.items.find(i => i.item.id === item.id)
+            const existingItem = this.items.find(i => i.item._id === item._id)
             if (existingItem) {
                 existingItem.quantity += 1
             } else {
@@ -46,7 +46,7 @@ export const useCartStore = defineStore('cart', {
     getters: {
         getItems: (state) => state.items,
         getItemById: (state) => (itemId: string) => {
-            const item = state.items.find(i => i.item.id === itemId)
+            const item = state.items.find(i => i.item._id === itemId)
             return item ? item.item : null
         }
     }

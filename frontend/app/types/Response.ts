@@ -3,3 +3,8 @@ export interface TokenResponse {
     username: string,
     role: number
 }
+
+export interface OrderResponse {
+    id: string;
+    orderNumber: string;
+}

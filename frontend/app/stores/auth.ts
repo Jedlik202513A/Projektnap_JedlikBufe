@@ -6,6 +6,7 @@ export const useAuthStore = defineStore('auth', {
         initialized: false,
         token: null as string | null,
         user: null as User | null,
+        username: null as string | null,
     }),
     actions: {
         initializeAuth() {
@@ -20,6 +21,9 @@ export const useAuthStore = defineStore('auth', {
         },
         setUser(user: User | null) {
             this.user = user
+        },
+        setUsername(username: string | null) {
+            this.username = username
         },
         clearAuth(){
             this.token = null
