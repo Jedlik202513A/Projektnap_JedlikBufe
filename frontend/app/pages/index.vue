@@ -2,9 +2,7 @@
 </script>
 
 <template>
-    <NuxtLink to="/menu">
-        menu
-    </NuxtLink>
+    <Login/>
 </template>
 
 <style scoped>

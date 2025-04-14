@@ -4,11 +4,11 @@ export const useUserApi = () => {
     const runtimeConfig = useRuntimeConfig()
     const API_BASE_URL = runtimeConfig.public.apiBaseUrl
 
-    const login = (username: string, password: string) => {
-        return $fetch<TokenResponse>(`${API_BASE_URL}/login`, {
+    const login = (name: string, password: string) => {
+        return $fetch<TokenResponse>(`${API_BASE_URL}/auth/login`, {
             method: "POST",
             body: {
-                username, 
+                name, 
                 password
             }
         })
