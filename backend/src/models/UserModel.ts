@@ -1,4 +1,4 @@
-import { Schema, SchemaDefinition, model } from "mongoose";
+import { Schema, SchemaDefinition, model,Types } from "mongoose";
 import OrderSideSchema from "./OrderModel.js";
 // https://mongoosejs.com/docs/typescript.html
 // https://mongoosejs.com/docs/validation.html
@@ -7,7 +7,7 @@ import OrderSideSchema from "./OrderModel.js";
 // ************************************************
 const UserSchema = new Schema<SchemaDefinition>(
     {
-        _id: Number,
+        _id: Types.ObjectId,
         name: {
             type: String,
             required: true,
