@@ -2,27 +2,42 @@
 
 import type { Item } from '~/types/Item.ts';
 
-const AddToCart = (item: Item)=>{
-    console.log(item);
-    console.log(item.stock);
-
-}
-
 const props = defineProps<{
     item: Item
 }>()
 
+console.log(props.item)
+
+const cartStore = useCartStore()
+
+const cart = computed(() => cartStore.getItems)
+
+const quantity = computed(() => {
+    const item = cart.value.find((i) => i.item._id === props.item._id)
+    return item ? item.quantity : 0
+})
+
+const addQuantity = () => {
+    cartStore.addOneToItem(props.item)
+}
+
+const subtractQuantity = () => {
+    cartStore.removeOneFromItem(props.item._id)
+}
 </script>
 <template>
-    <div class="border-4 border-amber-100 h-70 m-7 p-4 rounded-3xl md:w-xl lg:w-xl">
-        <h1 class="font-bold text-4xl text-center">{{ item.name }}</h1>
-        <p class="m-6">Kategória: {{ item.category.name }}</p>
-        <p class="m-6">Ár: {{ item.price }} -Ft</p>
-        
-        <div class="flex">
-            <!-- <button>&#65291</button> -->
+    <div class="flex justify-between gap-5 p-5 rounded-3xl bg-orange-100">
+        <div>
+            <h1 class="font-medium">{{ item.name }}</h1>
+            <p class="text-gray-600">{{ item.price }} Ft</p>
         </div>
-        <button class="bg-red-700 w-50 h-10 border rounded-4xl" v-on:click="AddToCart(item)">Hozzáadás</button>
+        <div class="flex items-center gap-2.5">
+            <button class="size-8 rounded-full flex items-center justify-center cursor-pointer bg-orange-500" @click="subtractQuantity()">&#8722;</button>
+            <span>
+                {{ quantity }}
+            </span>
+            <button class="size-8 rounded-full flex items-center justify-center cursor-pointer bg-orange-500" @click="addQuantity()">&#65291;</button>
+        </div>
     </div>
   </template>
 
