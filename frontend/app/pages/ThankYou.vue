@@ -5,61 +5,63 @@ definePageMeta({
 </script>
 
 <template>
-  <div class="thank-you-container">
-    <div class="success-icon mb-6">
-      <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-500">
-        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-        <polyline points="22 4 12 14.01 9 11.01"></polyline>
-      </svg>
-    </div>
-    
-    <h1 class="text-2xl font-bold mb-4">Köszönjük a rendelésed!</h1>
-    
-    <p class="mb-2">A rendelésed sikeresen előkészítve</p>
+  <div class="thank-you-page bg-white p-6 flex items-center justify-center">
+    <div class="thank-you-container max-w-md w-full bg-[#FBEBD0] p-8 rounded-lg shadow-md text-center border border-gray-200">
+      <div class="success-icon mb-5">
+        <!-- Using a simpler, theme-consistent checkmark -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-green-500 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </div>
 
-    
-    <div class="mt-8">
-      <nuxt-link to="/menu" class="back-to-menu-btn bg-blue-600 text-white py-3 px-8 rounded-lg text-lg font-semibold hover:bg-blue-700">
-        Rendelj újra
-      </nuxt-link>
+      <h1 class="text-2xl font-bold mb-3 text-[#57390F]">Köszönjük a rendelésed!</h1>
+
+      <p class="mb-6 text-[#57390F]/90">A rendelésed sikeresen rögzítettük és hamarosan elkészítjük.</p>
+      <!-- Optional: Add link to status tracking -->
+      <p class="mb-8 text-sm text-[#57390F]/70">
+          Kövesd nyomon a rendelésed állapotát <nuxt-link to="/StatusTrack" class="text-[#FBA518] hover:underline font-semibold">itt</nuxt-link>.
+      </p>
+
+
+      <div class="mt-8">
+        <nuxt-link
+          to="/menu"
+          class="back-to-menu-btn bg-[#FBA518] text-white py-2 px-6 rounded-lg text-base font-semibold hover:bg-opacity-90 transition duration-200 inline-block"
+        >
+          Új rendelés leadása
+        </nuxt-link>
+      </div>
     </div>
   </div>
 </template>
 
-<style>
+<style scoped>
+.thank-you-page {
+  /* Ensures the background covers the whole page and centers content */
+  /* Styles moved to template for Tailwind */
+}
+
 .thank-you-container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 70vh;
+  /* Styling similar to OrderItem */
+   /* border: 1px solid #FBEBD0; /* Subtle border matching the page bg */
+   /* Updated border for white background */
+   border: 1px solid #e5e7eb; /* Light gray border */
+   font-family: sans-serif; /* Or your project's default font */
 }
 
-.success-icon {
-  animation: pulse 2s infinite;
+.success-icon svg {
+  /* Optional: Add subtle animation */
+   animation: pop 0.5s ease-out forwards;
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(0.95);
-    opacity: 0.7;
-  }
-  50% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(0.95);
-    opacity: 0.7;
-  }
+@keyframes pop {
+    0% { transform: scale(0.5); opacity: 0; }
+    80% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
 }
+
 
 .back-to-menu-btn {
-  display: inline-block;
-  transition: all 0.3s ease;
+  /* Ensures consistent button styling */
 }
 </style>
