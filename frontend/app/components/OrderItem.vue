@@ -69,8 +69,6 @@ const onTouchEnd = (event: TouchEvent) => {
     event.currentTarget.classList.remove('touch-active');
   }
 };
-
-// Simplified status colors for just Pending and Ready
 const getStatusColor = (status: string) => {
   if (status === 'pending') {
     return 'bg-yellow-100 text-yellow-800 border-yellow-200';
@@ -80,7 +78,7 @@ const getStatusColor = (status: string) => {
   return '';
 };
 
-// Get the other status (toggle between Pending and Ready)
+
 const getOtherStatus = () => {
   return props.order.status === 'pending' ? 'ready' : 'pending';
 };
@@ -98,7 +96,7 @@ const isInReadyColumn = () => {
 
 <template>
   <div 
-    class="p-4 rounded-md shadow-sm border border-gray-200 cursor-move"
+    class="p-4 rounded-lg shadow-sm bg-white mb-4"
     draggable="true"
     @dragstart="onDragStart"
     @touchstart="onTouchStart"
@@ -106,47 +104,33 @@ const isInReadyColumn = () => {
     @touchend="onTouchEnd"
     @touchcancel="onTouchEnd"
   >
-    <div class="flex justify-between items-center mb-2">
-      <h3 class="font-medium">Order #{{ order.id }}</h3>
-      <span class="text-xs text-gray-500">{{ formatDate(order.timestamp) }}</span>
-    </div>
-    
-    <div class="mb-3 text-sm">
-      <p class="mb-1"><span class="font-medium">Customer:</span> {{ order.customer }}</p>
-      <p class="mb-1"><span class="font-medium">Items:</span> {{ order.items.join(', ') }}</p>
-      <p class="mb-1"><span class="font-medium">Total:</span> {{ order.totalPrice }} Ft</p>
-      <p class="flex items-center">
-        <span class="font-medium mr-2">Status:</span> 
-        <span :class="['px-2 py-1 rounded text-xs capitalize', getStatusColor(order.status)]">
-          {{ order.status }}
-        </span>
-      </p>
-    </div>
-    
-    <div class="flex flex-wrap gap-2 mt-3 pt-3 border-t border-gray-100">
-      <!-- Show status change button when not in ready column -->
-      <button 
-        v-if="!isInReadyColumn()"
-        :class="[
-          'px-3 py-2 text-sm rounded-full transition-colors',
-          'bg-gray-100 hover:bg-gray-200 text-gray-700'
-        ]"
-        @click="updateStatus(getOtherStatus())"
-      >
-        Move to {{ getOtherStatus() }}
-      </button>
-      
-      <!-- Show pickup button only when in ready column -->
+    <div class="flex justify-between items-center mb-3">
+      <h3 class="text-lg font-bold text-[#57390F]">{{ order.customer }}</h3>
       <button 
         v-if="isInReadyColumn()"
-        :class="[
-          'px-3 py-2 text-sm rounded-full transition-colors',
-          'bg-green-500 hover:bg-green-600 text-white'
-        ]"
+        class="bg-[#FBA518] text-white px-4 py-1 rounded-md"
         @click="handlePickup"
       >
-        Picked Up
+        Kész
       </button>
+      <button 
+        v-else
+        class="bg-[#FBA518] text-white px-4 py-1 rounded-md"
+        @click="updateStatus(getOtherStatus())"
+      >
+        Kész
+      </button>
+    </div>
+    
+    <div class="text-sm text-[#57390F]">
+      <div v-for="(item, index) in order.items" :key="index" class="flex justify-between mb-1">
+        <span>{{ item }}</span>
+        <span>{{ Math.round(order.totalPrice / order.items.length) }} Ft</span>
+      </div>
+      <div class="border-t border-[#57390F] border-opacity-20 mt-2 pt-2 flex justify-between font-bold">
+        <span>Összeg:</span>
+        <span>{{ order.totalPrice }} Ft</span>
+      </div>
     </div>
   </div>
 </template>
@@ -160,9 +144,8 @@ const isInReadyColumn = () => {
   transition: all 0.1s ease;
 }
 
-/* Ensure touch targets are large enough */
 button {
-  min-height: 44px;
-  min-width: 44px;
+  min-height: 36px;
+  font-weight: bold;
 }
 </style>

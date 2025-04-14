@@ -120,7 +120,8 @@ const statusColumns = ['pending', 'ready'];
 </script>
 
 <template>
-    <div class="p-4 sm:p-6 max-w-7xl mx-auto">
+    <div class="text-black text-center font-bold"><h1 class="text-2xl">Rendelések:</h1></div>
+    <div class="p-4 sm:p-6 max-w-7xl mx-auto bg-white">
         <!-- Pass order as an object, not a ref -->
         <OrderAlert 
           :show="showAlert" 
@@ -133,16 +134,17 @@ const statusColumns = ['pending', 'ready'];
             <div 
                 v-for="status in statusColumns" 
                 :key="status" 
-                class="bg-gray-800 p-4 rounded-lg status-column"
+                class="bg-[#FBEBD0] p-4 rounded-lg status-column"
                 :data-status="status"
             >
-                <h2 class="text-lg font-semibold mb-3 capitalize text-white">{{ status }}</h2>
+                <h2 class="text-lg font-semibold mb-3 capitalize text-[#57390F]">{{ status }}</h2>
                 <OrderList 
                     :orders="orders.filter(order => order.status === status)" 
                     :targetStatus="status"
                     :allStatuses="statusColumns"
                     @update-status="updateOrderStatus"
                     @order-pickup="handleOrderPickup"
+                    class="order-list"
                 />
             </div>
         </div>
@@ -160,6 +162,11 @@ const statusColumns = ['pending', 'ready'];
 
 .status-column[data-status="ready"] {
   border-left: 4px solid #6EE7B7;
+}
+
+.order-list :deep(.order-item) {
+  background-color: #57390F;
+  color: white;
 }
 
 @media (max-width: 768px) {
