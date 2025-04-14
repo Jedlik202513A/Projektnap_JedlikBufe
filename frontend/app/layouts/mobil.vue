@@ -17,7 +17,7 @@ onMounted(() => {
 <template>
     <div class="app-container bg-gray-950">
         <div class="mobile-frame" v-if="!isMobilDevice">
-            <div class="mobile-frame-content bg-white relative overflow-y-scroll">
+            <div class="mobile-frame-content bg-white text-black relative overflow-y-scroll">
                 <slot/>
             </div>
         </div>

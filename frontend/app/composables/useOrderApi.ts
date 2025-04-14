@@ -7,7 +7,7 @@ export const useOrderApi = () => {
     const token = useCookie('token'); 
 
     const getAllOrders = () => {
-        return $fetch<Order[]>(`${API_BASE_URL}/api/orders`, {
+        return $fetch<Order[]>(`${API_BASE_URL}/orders`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token.value}` 
@@ -17,7 +17,7 @@ export const useOrderApi = () => {
 
     const getOrderById = (orderId: string) => {
         console.log(`Fetching order with ID: ${orderId}`);
-        return $fetch<Order>(`${API_BASE_URL}/api/orders/${orderId}`, {
+        return $fetch<Order>(`${API_BASE_URL}/orders/${orderId}`, {
             method: "GET",
             headers: {
                 // Only include Authorization header if token exists
@@ -35,7 +35,7 @@ export const useOrderApi = () => {
     };
 
     const createOrder = (orderData: { items: { itemId: string, quantity: number }[] }) => {
-        return $fetch<Order>(`${API_BASE_URL}/api/orders`, {
+        return $fetch<Order>(`${API_BASE_URL}/orders`, {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${token.value}`
@@ -46,7 +46,7 @@ export const useOrderApi = () => {
 
     const confirmOrder = (orderId: string) => {
         console.log(`Confirming order with ID: ${orderId}`);
-        return $fetch<Order>(`${API_BASE_URL}/api/orders/confirm/${orderId}`, {
+        return $fetch<Order>(`${API_BASE_URL}/orders/confirm/${orderId}`, {
             method: "POST", // POST request to change from "In progress" to "Confirmed"
             headers: {
                 ...(token.value ? { Authorization: `Bearer ${token.value}` } : {})
@@ -64,7 +64,7 @@ export const useOrderApi = () => {
 
     const markOrderReady = (orderId: string) => {
         console.log(`Marking order ready with ID: ${orderId}`);
-        return $fetch<Order>(`${API_BASE_URL}/api/orders/confirm/${orderId}`, {
+        return $fetch<Order>(`${API_BASE_URL}/orders/confirm/${orderId}`, {
             method: "PATCH", // PATCH request to change from "Confirmed" to "Ready"
             headers: {
                 ...(token.value ? { Authorization: `Bearer ${token.value}` } : {})
