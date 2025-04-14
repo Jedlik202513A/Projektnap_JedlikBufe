@@ -1,4 +1,9 @@
+import { ItemRoutes } from './routes/item.routes';
 import App from './app';
-import myController from './controller/controller';
+import { AuthRoutes } from './routes/auth.routes';
 
-new App([new myController()]);
+new App([
+    new AuthRoutes(),
+    new ItemRoutes()
+]);
+

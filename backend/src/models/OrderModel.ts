@@ -1,15 +1,24 @@
-import { stat } from "fs";
-import { Schema, SchemaDefinition, model } from "mongoose";
-import ItemSchema from "./ItemModel.js";
+import { Schema, SchemaDefinition, model, Types } from "mongoose";
+import ItemSchema from "./ItemModel";
 
-const OrderSideSchema = new Schema({
-    orderID: { type: String, required: true, unique: true },
+const OrderSideSchema = new Schema<SchemaDefinition>(
+  {
+    orderID: { type: Types.ObjectId, required: true, unique: true },
     sumPrice: { type: Number, required: true },
     status: { type: String, required: true },
-    items:{ type: [ItemSchema], required: true },
+    items: { 
+      type: Schema.Types.ObjectId,
+            ref: 'ItemID'    
+    ,required: true },
     orderNumber: { type: Number, required: true },
-    },
-    { versionKey: false, id: false, toJSON: { virtuals: true }, toObject: { virtuals: true } },);
+  },
+  {
+    versionKey: false,
+    id: false,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
+);
 
-const OrderModel = model("OrderID", OrderSideSchema, );
+const OrderModel = model("OrderID", OrderSideSchema);
 export default OrderModel;
