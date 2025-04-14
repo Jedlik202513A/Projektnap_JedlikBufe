@@ -5,6 +5,7 @@ import CategoryModel  from './models/CategoryModel';
 import ItemModel from './models/ItemModel';
 import OrderModel from './models/OrderModel';
 import UserModel from './models/UserModel';
+
 import morgan from 'morgan';
 import cors from 'cors';
 
@@ -14,26 +15,27 @@ export default class App {
 	constructor(controllers: IController[]) {
 		// Create express application:
 		this.app = express();
-		// Connect to the database:
-		this.connectToTheDatabase();
 		// Parse incoming requests with JSON payloads:
 		this.app.use(express.json());
 		// Enabled CORS:
 		this.app.use(cors());
 		// morgan logger:
 		this.app.use(morgan('dev'));
-
+		
 		// Add controllers to the app:
 		controllers.forEach((controller) => {
 			this.app.use('/', controller.router);
 		});
+		
+		this.listen();		
 	}
 
 	public listen(): void {
-		this.app.listen(5000, () => {
+		this.app.listen(5000, () => {			
 			console.log('App listening on the port 5000');
 		});
 	}
+
 
 	private connectToTheDatabase() {
 		mongoose.set('strictQuery', true);
@@ -52,11 +54,10 @@ export default class App {
 			console.log('Connected to MongoDB server.');
 			this.listen();
 		});
-
-		// init models for populate
 		CategoryModel.init()
 		UserModel.init()
 		ItemModel.init()
 		OrderModel.init()
 	}
 }
+
