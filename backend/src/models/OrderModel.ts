@@ -10,10 +10,11 @@ const OrderSideSchema = new Schema<SchemaDefinition>(
       { 
         type: Schema.Types.ObjectId,
         ref: 'Item',
-        required: true 
+        required: true,
+        index: true
       }
     ],
-    orderNumber: { type: Number, required: true },
+    orderNumber: { type: String, required: true },
   },
   {
     versionKey: false,
@@ -23,5 +24,5 @@ const OrderSideSchema = new Schema<SchemaDefinition>(
   }
 );
 
-const OrderModel = model("OrderID", OrderSideSchema);
+const OrderModel = model("OrderID", OrderSideSchema, 'orders');
 export default OrderModel;

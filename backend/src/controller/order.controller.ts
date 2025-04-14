@@ -27,23 +27,27 @@ export class OrderController {
 
 	public static newOrder = async (req: Request, res: Response) => {
 		try {
-			const items = req.body;
-			log(items)
+			const items = req.body;			
 			if (!items) {
 				throw new Error('Order is required');
 			}
 			let price: number = 0;
 			items.forEach((i: any) => {
-				price+=i.price
-			});
+				price+=i.price;
+				if(i.quantity > i.stock) 	
+					res.status(400).send('quantity larger than stock');
+			});			
+			const id = new mongoose.Types.ObjectId;
+			const orderNumber = id.toString().slice(id.toString().length-3, id.toString().length)
 			const newOrder = { 
+				_id: id,
 				sumPrice: price,
 				status: 'In progress',
-				items: [...items],
-				orderNumber: items.length+1
+				items: [...items],			
+				orderNumber: orderNumber
 			}
-			this.order.insertMany([newOrder]);
-			res.send();
+			this.order.insertOne(newOrder);
+			res.status(201).json({ orderNumber: orderNumber });
 		} catch (error) {
 			res.status(400).send({ message: error.message });
 		}

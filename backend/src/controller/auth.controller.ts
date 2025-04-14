@@ -36,7 +36,7 @@ export class Authenticator {
         if (Authenticator.checkPassword(password, user.passwordHash)) {
             const token = jwt.sign({ name: name, role: user.role, id: user._id }, 'very_secret_key')            
             // await user.save()
-            return res.status(200).json({ token: token })
+            return res.status(200).json({ token: token, username: name, role: user.role })
         }
         else {
             return res.status(403).json({ message: "Invalid asname or password" })
