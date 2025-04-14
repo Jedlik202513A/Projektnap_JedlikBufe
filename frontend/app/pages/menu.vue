@@ -1,13 +1,9 @@
 <script setup lang="ts">
-const MenuItems: items()=>{
-    
-}
 </script>
 
 <template>
     <div>
-        <FoodCard v-for="">
-
+        <FoodCard>
         </FoodCard>
     </div>
 </template>
