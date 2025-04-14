@@ -28,7 +28,6 @@ const subtractQuantity = () => {
 }
 </script>
 <template>
-    
     <div class="h-30 p-4 rounded-3xl w-full md:w-md lg:w-md">
         <h1 class="font-bold text-lg text-center">{{ item.name }}</h1>
         <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
