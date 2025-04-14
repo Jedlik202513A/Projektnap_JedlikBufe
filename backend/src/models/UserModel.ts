@@ -18,7 +18,7 @@ const UserSchema = new Schema<SchemaDefinition>(
         },
         orders: {
             type: Schema.Types.ObjectId,
-            ref: 'Order',
+            ref: 'OrderID',
         },
         role: {
             type: Number,
@@ -29,6 +29,6 @@ const UserSchema = new Schema<SchemaDefinition>(
 );
 
 // ************************************************
-const UserModel = model("UserID", UserSchema);
+const UserModel = model("UserID", UserSchema, 'users');
 export default UserModel;
 

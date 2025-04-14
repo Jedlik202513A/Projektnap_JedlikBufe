@@ -11,5 +11,5 @@ const CategorySchema = new Schema<SchemaDefinition>(
     { versionKey: false, id: false, toJSON: { virtuals: true }, toObject: { virtuals: true } },
 );
 
-const CategoryModel = model("CategoryID", CategorySchema);
+const CategoryModel = model("category_id", CategorySchema, 'categories');
 export default CategoryModel;

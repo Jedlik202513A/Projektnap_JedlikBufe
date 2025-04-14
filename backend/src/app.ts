@@ -15,6 +15,8 @@ export default class App {
 	constructor(controllers: IController[]) {
 		// Create express application:
 		this.app = express();
+		//	
+		this.connectToTheDatabase();
 		// Parse incoming requests with JSON payloads:
 		this.app.use(express.json());
 		// Enabled CORS:
@@ -25,9 +27,7 @@ export default class App {
 		// Add controllers to the app:
 		controllers.forEach((controller) => {
 			this.app.use('/', controller.router);
-		});
-		
-		this.listen();		
+		});		
 	}
 
 	public listen(): void {
@@ -41,7 +41,7 @@ export default class App {
 		mongoose.set('strictQuery', true);
 		mongoose
 			.connect(
-				'mongodb+srv://jedlikuser:jedlikuser@jedlikproject.aa7atkk.mongodb.net/'
+				'mongodb+srv://jedlikuser:jedlikuser@jedlikproject.aa7atkk.mongodb.net/JedlikBuffet'
 			)
 			.catch(() =>
 				console.log('Unable to connect to the server. Please start MongoDB.')
