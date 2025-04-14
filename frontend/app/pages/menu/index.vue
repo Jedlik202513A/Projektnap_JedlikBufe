@@ -8,6 +8,8 @@ definePageMeta({
 const { getCategories } = useMenuApi()
 const authStore = useAuthStore()
 
+console.log(authStore.user)
+
 const categories = ref<Category[]>([])
 
 const loadMenu = async () => {
@@ -26,12 +28,13 @@ onMounted(() => {
 
 <template>
     <div class="p-5">
-        <h1 class="text-3xl font-semibold">Szia {{ authStore.user?.name}}!</h1>
+        <h1 class="text-3xl font-semibold">Szia {{ authStore.username}}!</h1>
         <p class="text-gray-500 font-medium">Rendelj valami finomat!</p>
     </div>
     <div class="flex flex-col gap-2.5">
         <CategoriesCard v-for="category in categories" :key="category._id" :category="category" />
     </div>
+    <Cart/>
 </template>
 
 <style scoped>

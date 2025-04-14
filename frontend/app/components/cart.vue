@@ -64,16 +64,16 @@ const toggleCart = () => {
         <div class="max-h-[70vh] overflow-y-auto px-6 pb-6">
 
             <div class="space-y-4 mb-6">
-                <div v-for="item in cart" :key="item.item.id" class="flex items-center justify-between p-4 rounded-lg">
+                <div v-for="item in cart" :key="item.item._id" class="flex items-center justify-between p-4 rounded-lg">
                     <div class="flex flex-col">
                         <span class="font-semibold text-lg text-black">{{ item.item.name }}</span>
                         <span class="text-gray-600">{{ item.item.price }} Ft</span>
                     </div>
                     <div class="flex items-center gap-2">
-                        <button @click="cartStore.removeOneFromItem(item.item.id)"
+                        <button @click="cartStore.removeOneFromItem(item.item._id)"
                             class="px-3 py-1 bg-gray-200 rounded-2xl hover:bg-gray-300">-</button>
                         <span class="w-8 text-center text-black">{{ item.quantity }}</span>
-                        <button @click="cartStore.addOneToItem(item.item.id)"
+                        <button @click="cartStore.addOneToItem(item.item)"
                             class="px-3 py-1 bg-gray-200 rounded-2xl hover:bg-gray-300 ">+</button>
                     </div>
                 </div>

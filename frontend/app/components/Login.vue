@@ -14,6 +14,7 @@ const handleLogin = async () => {
     try {
         const response = await login(username.value, password.value)
         authStore.setToken(response.token)
+        authStore.setUsername(response.username)
         if (response.role == 0) {
             router.push('/menu')
         } else {

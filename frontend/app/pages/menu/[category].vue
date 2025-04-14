@@ -34,7 +34,7 @@ onMounted(() => {
             <h1 class="text-xl font-bold">{{ menuItems[0]?.category_id.name }}</h1> 
         </div>
         <div class="grid grid-cols-1 gap-4 rounded-lg md:grid-rows-2 lg:grid-rows-3 ">
-            <FoodCard v-for="item in menuItems" :key="item.id" :item="item"/>
+            <FoodCard v-for="item in menuItems" :key="item._id" :item="item"/>
             <Cart/>
         </div>
     </div>
