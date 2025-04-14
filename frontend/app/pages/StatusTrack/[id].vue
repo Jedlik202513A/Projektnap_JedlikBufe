@@ -33,6 +33,7 @@ const mapStatusToUIStatus = (apiStatus: string | number): string => {
     // Handle string statuses
     switch (apiStatus) {
       case 'In progress': return 'Preparing';
+      case 'Confirmed': return 'Ready'; // Map "Confirmed" to "Ready" for UI display
       case 'Ready': return 'Ready';
       case 'Completed': return 'Picked Up';
       default: return 'Preparing';
@@ -43,8 +44,8 @@ const mapStatusToUIStatus = (apiStatus: string | number): string => {
 // Fetch the order data
 const fetchOrder = async () => {
   try {
-    // Get orderId from route params or query params
-    const orderId = route.params.id?.toString() || route.query.id?.toString();
+    // Get orderId directly from route params (for dynamic route [id])
+    const orderId = route.params.id?.toString();
     
     if (!orderId) {
       console.error('No order ID provided');
@@ -53,16 +54,19 @@ const fetchOrder = async () => {
     
     const apiOrder = await getOrderById(orderId);
     
-    // Update the order ref with fetched data
+    // Update the order ref with fetched data, ensuring ID compatibility
     order.value = {
-      id: apiOrder.id || apiOrder._id,
+      id: apiOrder._id || apiOrder.id || orderId, // Use _id from MongoDB response first
       status: mapStatusToUIStatus(apiOrder.status),
       items: apiOrder.items.map(item => item.name),
       totalPrice: apiOrder.sumPrice,
-      orderNumber: apiOrder.orderNumber
+      orderNumber: apiOrder.orderNumber,
+      originalStatus: apiOrder.status // Store original status for debugging
     };
+    
+    console.log('Order fetched successfully:', order.value);
   } catch (error) {
-    console.error('Failed to fetch order:', error);
+    console.error(`Failed to fetch order with ID: ${route.params.id}`, error);
   }
 };
 
@@ -96,6 +100,18 @@ const markAsPickedUp = () => {
   setTimeout(() => {
     router.push('/ThankYou'); // Assuming ThankYou page is appropriate after pickup
   }, 1500);
+};
+
+// Add markAsConfirmed method for testing purposes if needed
+const markAsConfirmed = async () => {
+  try {
+    const { confirmOrder } = useOrderApi();
+    await confirmOrder(order.value.id);
+    // Refresh the order data after confirmation
+    fetchOrder();
+  } catch (error) {
+    console.error('Failed to confirm order:', error);
+  }
 };
 
 // Load order data when component mounts
