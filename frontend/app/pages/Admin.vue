@@ -1,101 +1,94 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import OrderList from '../components/OrderList.vue';
 import OrderAlert from '../components/OrderAlert.vue';
+import { useOrderApi } from '~/composables/useOrderApi';
+import type { Order } from '~/types/Order';
 
-// Mock data for orders - updated to use only Pending and Ready statuses
-const orders = ref([
-  {
-    id: 1,
-    customer: 'John Doe',
-    items: ['Hamburger', 'Fries', 'Cola'],
-    totalPrice: 1890,
-    status: 'pending',
-    timestamp: '2023-05-15T10:30:00'
-  },
-  {
-    id: 2,
-    customer: 'Jane Smith',
-    items: ['Chicken Sandwich', 'Salad'],
-    totalPrice: 1590,
-    status: 'pending',
-    timestamp: '2023-05-15T10:45:00'
-  },
-  {
-    id: 3,
-    customer: 'Bob Johnson',
-    items: ['Pizza', 'Water'],
-    totalPrice: 2090,
-    status: 'ready',
-    timestamp: '2023-05-15T11:00:00'
-  },
-  {
-    id: 4,
-    customer: 'Alice Brown',
-    items: ['Pasta', 'Garlic Bread', 'Soda'],
-    totalPrice: 2390,
-    status: 'ready',
-    timestamp: '2023-05-15T09:15:00'
-  }
-]);
+// Use the API composable
+const { getAllOrders, createOrder, confirmOrder, markOrderReady } = useOrderApi();
+
+// Reactive ref for orders
+const orders = ref([]);
 
 // Order alert state
 const showAlert = ref(false);
 const newOrder = ref(null);
 
-// Function to update order status
-const updateOrderStatus = (orderId: number, newStatus: string) => {
-  const order = orders.value.find(o => o.id === orderId);
-  if (order) {
-    order.status = newStatus;
+// Load orders from API
+const loadOrders = async () => {
+  try {
+    const apiOrders = await getAllOrders();
+    // Map API orders to the format expected by the component
+    orders.value = apiOrders.map(order => ({
+      id: order._id || order.id, // Use _id from MongoDB response
+      customer: `Order #${order.orderNumber}`, // Use order number as customer name
+      items: order.items.map(item => item.name), // Extract item names
+      totalPrice: order.sumPrice,
+      status: typeof order.status === 'string' ? mapApiStatusToUiStatus(order.status) : mapStatusNumberToString(order.status),
+      timestamp: new Date().toISOString(), // Assuming the API doesn't provide timestamp
+      originalStatus: order.status // Keep the original API status for reference
+    }));
+  } catch (error) {
+    console.error('Failed to load orders:', error);
   }
 };
 
-// New function to handle order pickup
-const handleOrderPickup = (orderId: number) => {
+// Map API string status to UI status
+const mapApiStatusToUiStatus = (apiStatus: string): string => {
+  switch(apiStatus) {
+    case 'In progress': return 'pending';
+    case 'Confirmed': return 'Confirmed';
+    case 'Ready': return 'ready';
+    default: return 'pending';
+  }
+};
+
+// Convert API status number to string status (legacy support)
+const mapStatusNumberToString = (statusNumber: number): string => {
+  switch(statusNumber) {
+    case 0: return 'pending';
+    case 1: return 'Confirmed';
+    case 2: return 'ready';
+    default: return 'pending';
+  }
+};
+
+// Function to update order status
+const updateOrderStatus = async (orderId: number | string, newStatus: string) => {
+  const order = orders.value.find(o => o.id === orderId);
+  if (order) {
+    try {
+      // Different API calls based on target status
+      if (newStatus === 'Confirmed') {
+        // Call the API to confirm the order (from pending/In progress to Confirmed)
+        await confirmOrder(orderId.toString());
+      } else if (newStatus === 'ready') {
+        // Call the API to mark the order as ready (from Confirmed to Ready)
+        await markOrderReady(orderId.toString());
+      }
+      
+      // Update local status after successful API call
+      order.status = newStatus;
+      
+      // Refresh orders after a status change to ensure consistency
+      setTimeout(() => loadOrders(), 1000);
+      
+    } catch (error) {
+      console.error(`Failed to update order ${orderId} status to ${newStatus}:`, error);
+      // Optionally show an error notification to the user
+    }
+  }
+};
+
+// Function to handle order pickup
+const handleOrderPickup = async (orderId: number | string) => {
   const orderIndex = orders.value.findIndex(o => o.id === orderId);
   if (orderIndex !== -1) {
     orders.value.splice(orderIndex, 1);
+    // Here you would call an API endpoint to mark the order as picked up/completed
+    // Example: await completeOrder(orderId);
   }
-};
-
-// Function to simulate receiving a new order
-const simulateNewOrder = () => {
-  // Generate a new order with a random ID
-  const orderId = Math.floor(Math.random() * 1000) + 5; // Start from 5 to avoid conflicts with existing orders
-  const customers = ['Michael Scott', 'Dwight Schrute', 'Jim Halpert', 'Pam Beesly', 'Ryan Howard'];
-  const menuItems = [
-    ['Cheeseburger', 'Fries', 'Milkshake'],
-    ['Veggie Burger', 'Sweet Potato Fries'],
-    ['Chicken Wings', 'Coleslaw', 'Beer'],
-    ['Fish & Chips', 'Soda'],
-    ['Pizza', 'Garlic Bread', 'Soda']
-  ];
-  
-  // Pick random customer and order items
-  const customerIndex = Math.floor(Math.random() * customers.length);
-  const itemsIndex = Math.floor(Math.random() * menuItems.length);
-  
-  // Create new order object
-  const order = {
-    id: orderId,
-    customer: customers[customerIndex],
-    items: menuItems[itemsIndex],
-    totalPrice: Math.floor(Math.random() * 2000) + 1000, // Random price between 1000-3000
-    status: 'pending',
-    timestamp: new Date().toISOString()
-  };
-  
-  // Add to orders list
-  orders.value.push(order);
-  
-  // Show alert - ensure newOrder is set before showAlert
-  newOrder.value = order;
-  
-  // Small delay to ensure the reference is updated before showing
-  setTimeout(() => {
-    showAlert.value = true;
-  }, 10);
 };
 
 // Handle alert close
@@ -104,19 +97,22 @@ const handleAlertClose = () => {
 };
 
 onMounted(() => {
-  // Ensure we have a small delay before showing the first alert
-  setTimeout(() => {
-    simulateNewOrder();
-  }, 2000);
+  // Load orders when component mounts
+  loadOrders();
   
-  // Set up interval to periodically show new orders
-  setInterval(() => {
-    simulateNewOrder();
-  }, 30000); // Show a new order every 30 seconds
+  // Optional: Set up polling to refresh orders periodically
+  const interval = setInterval(() => {
+    loadOrders();
+  }, 30000); // Refresh every 30 seconds
+  
+  // Clean up interval on component unmount
+  onBeforeUnmount(() => {
+    clearInterval(interval);
+  });
 });
 
-// Simplified to only two statuses
-const statusColumns = ['pending', 'ready'];
+// Use status columns that match our mapped statuses
+const statusColumns = ['pending', 'Confirmed'];
 </script>
 
 <template>
@@ -160,7 +156,7 @@ const statusColumns = ['pending', 'ready'];
   border-left: 4px solid #FCD34D;
 }
 
-.status-column[data-status="ready"] {
+.status-column[data-status="Confirmed"] {
   border-left: 4px solid #6EE7B7;
 }
 
